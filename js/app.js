@@ -18,6 +18,7 @@ function eventListeners() {
     fechaInput.addEventListener('input', datosCita);
     horaInput.addEventListener('input', datosCita);
     sintomasInput.addEventListener('input', datosCita);
+    formulario.addEventListener('submit', nuevaCita);
 }
 eventListeners();
 
@@ -31,9 +32,56 @@ const citaObj = {
     sintomas: ''
 }
 
+// Clases
+class Citas {
+    constructor() {
+        this.citas = [];
+    }
+}
+
+class UI {
+    imprimirAlerta(mensaje, tipoMensaje) {
+        const divMensaje = document.createElement('div');
+        divMensaje.classList.add('text-center', 'alert', 'd-block', 'col-12');
+
+        if (tipoMensaje === 'error') {
+            divMensaje.classList.add('alert-danger');
+        } else {
+            divMensaje.classList.add('alert.success');
+        }
+
+        divMensaje.textContent = mensaje;
+
+        document.querySelector('#contenido').insertBefore(divMensaje, document.querySelector('.agregar-cita'));
+
+        setTimeout(() => {
+            divMensaje.remove();
+        }, 2500)
+    }
+}
+
+const ui = new UI();
+const administrarCitas = new Citas();
+
 
 // Funciones
+
 function datosCita(e) {
     citaObj[e.target.name] = e.target.value;
+}
+
+/// Valida y agrega una nueva cita a la clase de citas
+function nuevaCita(e) {
+    e.preventDefault();
+
+    // Extraer la información del objeto de cita
+    const { mascota, propietario, telefono, fecha, hora, sintomas } = citaObj;
+
+    // Validar
+    if (mascota === '' || propietario === '' || telefono === '' || fecha === '' || hora === '' || sintomas === '') {
+        ui.imprimirAlerta('Todos los campos son obligatorios', 'error');
+
+        return;
+    }
 }
 
