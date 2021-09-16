@@ -37,6 +37,10 @@ class Citas {
     constructor() {
         this.citas = [];
     }
+
+    agregarCita(cita) {
+        this.citas = [...this.citas, cita];
+    }
 }
 
 class UI {
@@ -83,5 +87,26 @@ function nuevaCita(e) {
 
         return;
     }
+
+    // Generar un id único
+    citaObj.id = Date.now();
+
+    // Creando una nueva cita
+    administrarCitas.agregarCita({...citaObj});
+
+    // Reiniciar el objeto para la validación
+    reiniciarObjeto();
+
+    // Reiniciar el formulario
+    formulario.reset();
 }
 
+
+function reiniciarObjeto() {
+    citaObj.mascota = '';
+    citaObj.propietario = '';
+    citaObj.telefono = '';
+    citaObj.fecha = '';
+    citaObj.hora = '';
+    citaObj.sintomas = '';
+}
